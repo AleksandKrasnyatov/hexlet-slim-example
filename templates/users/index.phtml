@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @var array $users
+ */
+?>
+<form action="/users" method="get">
+    <input type="search" name="name">
+    <input type="submit" value="Search">
+</form>
+<hr>
+<ul>
+<?php foreach ($users as $user): ?>
+    <li><?= $user ?></li>
+<?php endforeach;?>
+</ul>

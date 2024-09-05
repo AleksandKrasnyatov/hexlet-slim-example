@@ -14,10 +14,19 @@ $container->set('renderer', function () {
 });
 $app = AppFactory::createFromContainer($container);
 
+$users = ['mike', 'mishel', 'adel', 'keks', 'kamila'];
+
 $app->addErrorMiddleware(true, true, true);
 
-$app->get('/users', function ($request, $response) {
-    return $response->write('GET /users');
+$app->get('/users', function ($request, $response) use ($users) {
+    $name = $request->getQueryParam('name');
+    if (!empty($name)) {
+        $users = array_filter($users, function ($user) use ($name) {
+            return str_contains($user, $name);
+        });
+    }
+    $params = ['users' => $users];
+    return $this->get('renderer')->render($response, 'users/index.phtml', $params);
 });
 
 $app->post('/users', function ($request, $response) {
